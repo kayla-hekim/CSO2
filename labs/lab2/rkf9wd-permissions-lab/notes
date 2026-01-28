@@ -1,0 +1,49 @@
+#3. 
+
+
+
+
+#4.
+# for self:
+chmod 700 dir
+chmod 600 dir/foo dir/baz
+# ---
+# for partner:
+setfacl -m u:nka8qg:--x ./dir
+setfacl -m m:--x dir
+
+setfacl -m u:nka8qg:r-- ./dir/foo
+setfacl -m m:r-- dir/foo
+
+setfacl -m u:nka8qg:--- ./dir/baz
+# ---
+setfacl -m g::--- dir
+setfacl -m g::--- dir/foo
+setfacl -m g::--- dir/baz
+
+
+
+#5.
+chmod 700 shared.txt
+setfacl -m u:nka8qg:r-- shared.txt
+setfacl -m g::--- shared.txt
+
+
+
+#6. 
+chmod +x simple.sh
+
+
+
+#7. 
+a. cat xyxxy works but echo 'hi' >> xyxxy does not 
+chmod 400 xyxxy 
+
+b. echo hi >> xyxxy works but cat xyxxy does not 
+chmod 200 xyxxy 
+
+c. ./xyxxy works but cat xyxxy does not 
+chmod 100 xyxxy 
+
+d. ./xyxxy works but echo hi >> xyxxy does not 
+chmod 100 xyxxy
