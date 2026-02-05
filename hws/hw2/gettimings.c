@@ -77,17 +77,18 @@ pid_t forkThenTerminateBeforeWaitpid(void) {
 
 // 7
 int runBinTrue(void) {
-    int returnSys = system("/bin/true");
-    if (returnSys == -1) {
-        returnSys = system("/usr/bin/true");
+    const char *command = "/bin/true";
+    if (access(command, X_OK) != 0) {
+        command = "/usr/bin/true";
     }
-    return returnSys;
+    return system(command);
 }
 
 
 // 8
 void createRemoveDir(void) {
-    const char *path = "/tmp/gettimings_tmpdir";
+    char path[256];
+    snprintf(path, sizeof(path), "/tmp/gettimings_tmpdir_%ld", (long)getpid());
 
     mkdir(path, 0700);
     rmdir(path);
@@ -199,6 +200,8 @@ int timeEightScenarios(int option) {
 
         case 4: {
             long long realTime = 0;
+            int used = 0;
+
             for (int i = 0; i < samplesSlow; i++) {
                 pid_t pid;
                 long long start = nsecs();
@@ -206,19 +209,27 @@ int timeEightScenarios(int option) {
                 pid = retInParent();
 
                 long long end = nsecs();
+                if (pid <= 0) {
+                    continue;
+                }
+
+                used++;
                 time = end - start;
                 realTime += time;
 
                 int status;
-                if (pid > 0) {
-                    waitpid(pid, &status, 0);
-                }
+                waitpid(pid, &status, 0);
             }
-            long long avgTime = (realTime / samplesSlow) - avgEmpty4_8;
+            if (used == 0) { // used is 0 meaning we did not use the terminateBeforeWaitpid due to an error - no divide by 0 error
+                fprintf(stderr, "Case 4: no successful forks\n"); 
+                break; 
+            }
+
+            long long avgTime = (realTime / used) - avgEmpty4_8;
             double perCall = (double)avgTime;
             printf("Case 4: perform retInParent() which forks\n");
             printf("AVG_EMPTY_SLOW %lld\n", avgEmpty4_8);
-            printf("AVG_REAL_SLOW %lld\n", realTime / samplesSlow);
+            printf("AVG_REAL_SLOW %lld\n", realTime / used);
             printf("PER_CALL_NS %.3f\n\n", perCall);
             break;
         }

@@ -1,5 +1,5 @@
 Case 8: create then remove directory within /tmp on portal
-AVG_EMPTY_SLOW 24
-AVG_REAL_SLOW 23864
-PER_CALL_NS 23840.000
+AVG_EMPTY_SLOW 18
+AVG_REAL_SLOW 21591
+PER_CALL_NS 21573.000
 

@@ -1,5 +1,5 @@
 Case 6: fork, terminate child, then do waitpid, all within the timing this time
-AVG_EMPTY_SLOW 24
-AVG_REAL_SLOW 263280
-PER_CALL_NS 263256.000
+AVG_EMPTY_SLOW 32
+AVG_REAL_SLOW 350334
+PER_CALL_NS 350302.000
 
