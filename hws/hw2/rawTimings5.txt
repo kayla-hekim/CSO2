@@ -1,0 +1,5 @@
+Case 5: waitpid() when child already terminated
+AVG_EMPTY_SLOW 19
+AVG_REAL_SLOW 15459
+PER_CALL_NS 15440.000
+

@@ -1,0 +1,5 @@
+Case 4: perform retInParent() which forks
+AVG_EMPTY_SLOW 29
+AVG_REAL_SLOW 104651
+PER_CALL_NS 104622.000
+

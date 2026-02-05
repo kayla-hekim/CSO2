@@ -1,0 +1,5 @@
+Case 3: perform getppid() on current process
+AVG_EMPTY_FAST 6409
+AVG_REAL_FAST 1266480
+PER_CALL_NS 126.007
+

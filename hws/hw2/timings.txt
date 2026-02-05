@@ -1,0 +1,46 @@
+Scenario 1: empty function call
+Estimated time: 1.147 nanoseconds
+Method: Averaged 1000 samples of 10000 function calls per sample. Measured timing calls separately using an empty loop and subtracted it from the total run trial times before dividing by the number of calls (10000)
+Raw data: rawTimings1.txt
+
+
+Scenario 2: random number generator with drand48()
+Estimated time: 6.585 nanoseconds
+Method: Same as scenario 1 above (1000 samples of 10,000 calls; subtract empty-loop timing overhead; divide by 10,000)
+Raw data: rawTimings2.txt
+
+
+Scenario 3: perform getppid() on current process
+Estimated time: 126.007 nanoseconds
+Method: Same as scenario 1 above (1000 samples of 10,000 calls; subtract empty-loop timing overhead; divide by 10,000)
+Raw data: rawTimings3.txt
+
+
+Scenario 4: perform retInParent() which forks & returns in parent
+Estimated time: 104622.000 nanoseconds
+Method: Averaged 300 samples with 1 function call per sample. Measured only fork() return in parent and waitpid() ran after timing and (not included). Subtracted measured timing calls from total time
+Raw data: rawTimings4.txt
+
+
+Scenario 5: waitpid() when child already terminated
+Estimated time: 15440.000 nanoseconds
+Method: Forked a child that immediately exited before timing started, slept around 1ms to ensure termination, then only waitpid() was timed. Subtracted timing calls from total time. Same samples and only 1 function call like Scenario 4
+Raw data: rawTimings5.txt
+
+
+Scenario 6: fork, terminate child, then do waitpid, all within the timing session this time
+Estimated time: 263256.000 nanoseconds
+Method: Timed entire operation including fork(), child exit, and waitpid(). Same samples and only 1 function call like Scenario 4
+Raw data: rawTimings6.txt
+
+
+Scenario 7: perform system(/bin/true)
+Estimated time: 12326998.000 nanoseconds
+Method: Timed system() call directly. Same samples and only 1 function call like Scenario 4
+Raw data: rawTimings7.txt
+
+
+Scenario 8: create then remove directory within /tmp on portal
+Estimated time: 23840.000 nanoseconds
+Method: Timed mkdir() followed by rmdir() in /tmp. Same samples and only 1 function call like Scenario 4
+Raw data: rawTimings8.txt
