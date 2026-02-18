@@ -13,6 +13,26 @@
 alignas(4096) volatile char global_array[4096 * 32];
 
 
+static uintptr_t get_heap_end(void) {
+    FILE *f = fopen("/proc/self/maps", "r");
+    if (!f) { perror("maps"); exit(1); }
+
+    char line[512];
+    while (fgets(line, sizeof line, f)) {
+        if (strstr(line, "[heap]")) {
+            unsigned long start, end;
+            sscanf(line, "%lx-%lx", &start, &end);
+            fclose(f);
+            return (uintptr_t)end;
+        }
+    }
+
+    fprintf(stderr, "heap not found\n");
+    exit(1);
+}
+
+
+
 void labStuff(int which) {
     if (which == 0) {
         /* do nothing */
@@ -54,8 +74,9 @@ void labStuff(int which) {
         }
 
     } else if (which == 4) {
-        uintptr_t heap_end = 0x466fff;     
-        uintptr_t target = (heap_end + 0x200000 + 0xFFF) & ~0xFFF;    
+        uintptr_t heap_end = get_heap_end();
+        uintptr_t target = (heap_end + 0x200000 + 0xFFF) & ~(uintptr_t)0xFFF;
+        
         volatile char *pointer = mmap((void*) target,
                 4096,
                 PROT_READ | PROT_WRITE,
@@ -72,8 +93,9 @@ void labStuff(int which) {
         }
 
     } else if (which == 5) {
-        uintptr_t heap_end = 0x466fff;     
-        uintptr_t target = (heap_end + 0x10000000000ULL + 0xFFF) & ~(uintptr_t)0xFFF; 
+        uintptr_t heap_end = get_heap_end();
+        uintptr_t target = (heap_end + 0x10000000000ULL + 0xFFF) & ~(uintptr_t)0xFFF;
+
         volatile char *pointer = mmap((void*) target,
                 4096,
                 PROT_READ | PROT_WRITE,
