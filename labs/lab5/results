@@ -1,0 +1,276 @@
+after 0: nothing
+
+
+after 1:
+rkf9wd@portal12:~/CSO2/labs/lab5/vm-explore$ ./lab 1
+Memory layout:
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+000033253000-000033273fff [heap]
+7ff86b468000-7ff86b469fff [dynamic allocation]
+7ff86b46a000-7ff86b67efff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ff86b680000-7ff86b685fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ff86b686000-7ff86b692fff [dynamic allocation]
+7ff86b6a8000-7ff86b6a9fff [dynamic allocation]
+7ff86b6aa000-7ff86b6e0fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ff86b6e2000-7ff86b6e5fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffc4bf5f000-7ffc4bf87fff [stack]
+7ffc4bfa4000-7ffc4bfa7fff [vvar]
+7ffc4bfa8000-7ffc4bfa9fff [vdso]
+
+Initial state:
+             major page faults:          0
+             minor page faults:        105
+     Resident Set Size (bytes):    1728512
+                Shared (bytes):    1536000
+    Page Table Entries (bytes):      40960
+   Virtual Memory Size (bytes):    3141632
+                  Swap (bytes):          0
+---
+Running labStuff(1)...
+---
+Afterwards:
+             major page faults:          0 (        +0)
+             minor page faults:        137 (       +32)   <<<<<<<<<<<<<<<<<<<<<<<<<<<
+     Resident Set Size (bytes):    1859584 (   +131072)   <<<<<<<<<<<<<<<<<<<<<<<<<<<
+                Shared (bytes):    1536000 (        +0)
+    Page Table Entries (bytes):      40960 (        +0)
+   Virtual Memory Size (bytes):    3141632 (        +0)
+                  Swap (bytes):          0 (        +0)
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+000033253000-000033273fff [heap]
+7ff86b468000-7ff86b469fff [dynamic allocation]
+7ff86b46a000-7ff86b67efff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ff86b680000-7ff86b685fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ff86b686000-7ff86b692fff [dynamic allocation]
+7ff86b6a8000-7ff86b6a9fff [dynamic allocation]
+7ff86b6aa000-7ff86b6e0fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ff86b6e2000-7ff86b6e5fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffc4bf5f000-7ffc4bf87fff [stack]
+7ffc4bfa4000-7ffc4bfa7fff [vvar]
+7ffc4bfa8000-7ffc4bfa9fff [vdso]
+
+
+after 2:
+rkf9wd@portal12:~/CSO2/labs/lab5/vm-explore$ ./lab 2
+Memory layout:
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+000037306000-000037326fff [heap]
+7f55afcf0000-7f55afcf1fff [dynamic allocation]
+7f55afcf2000-7f55aff06fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f55aff08000-7f55aff0dfff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f55aff0e000-7f55aff1afff [dynamic allocation]
+7f55aff30000-7f55aff31fff [dynamic allocation]
+7f55aff32000-7f55aff68fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7f55aff6a000-7f55aff6dfff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7fff3d719000-7fff3d741fff [stack]
+7fff3d7a6000-7fff3d7a9fff [vvar]
+7fff3d7aa000-7fff3d7abfff [vdso]
+
+Initial state:
+             major page faults:          1
+             minor page faults:        102
+     Resident Set Size (bytes):    1716224
+                Shared (bytes):    1527808
+    Page Table Entries (bytes):      45056
+   Virtual Memory Size (bytes):    3141632
+                  Swap (bytes):          0
+---
+Running labStuff(2)...
+---
+Afterwards:
+             major page faults:          1 (        +0)
+             minor page faults:        104 (        +2)
+     Resident Set Size (bytes):    1724416 (     +8192) <<<<<<<<<<<<<<< only some
+                Shared (bytes):    1527808 (        +0)
+    Page Table Entries (bytes):      49152 (     +4096)
+   Virtual Memory Size (bytes):    4194304 (  +1052672) <<<<<<<<<<<<<<< 1MB around
+                  Swap (bytes):          0 (        +0)
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+000037306000-000037326fff [heap]
+7f55afbef000-7f55afcf1fff [dynamic allocation]
+7f55afcf2000-7f55aff06fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f55aff08000-7f55aff0dfff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f55aff0e000-7f55aff1afff [dynamic allocation]
+7f55aff30000-7f55aff31fff [dynamic allocation]
+7f55aff32000-7f55aff68fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7f55aff6a000-7f55aff6dfff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7fff3d719000-7fff3d741fff [stack]
+7fff3d7a6000-7fff3d7a9fff [vvar]
+7fff3d7aa000-7fff3d7abfff [vdso]
+
+
+
+after 3:
+rkf9wd@portal12:~/CSO2/labs/lab5/vm-explore$ ./lab 3
+Memory layout:
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+00000be32000-00000be52fff [heap]
+7f2ab80c3000-7f2ab80c4fff [dynamic allocation]
+7f2ab80c5000-7f2ab82d9fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f2ab82db000-7f2ab82e0fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f2ab82e1000-7f2ab82edfff [dynamic allocation]
+7f2ab8303000-7f2ab8304fff [dynamic allocation]
+7f2ab8305000-7f2ab833bfff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7f2ab833d000-7f2ab8340fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffd16ccf000-7ffd16cf7fff [stack]
+7ffd16d12000-7ffd16d15fff [vvar]
+7ffd16d16000-7ffd16d17fff [vdso]
+
+Initial state:
+             major page faults:          0
+             minor page faults:        104
+     Resident Set Size (bytes):    1703936
+                Shared (bytes):    1511424
+    Page Table Entries (bytes):      45056
+   Virtual Memory Size (bytes):    3141632
+                  Swap (bytes):          0
+---
+Running labStuff(3)...
+---
+Afterwards:
+             major page faults:          0 (        +0)
+             minor page faults:        136 (       +32)
+     Resident Set Size (bytes):    1835008 (   +131072) <<<<<<<<<< 131072 in resident set size
+                Shared (bytes):    1511424 (        +0)
+    Page Table Entries (bytes):      49152 (     +4096)
+   Virtual Memory Size (bytes):    4190208 (  +1048576) <<<<<<<<<< 1048576 in vm size
+                  Swap (bytes):          0 (        +0)
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000445fff [dynamic allocation]
+00000be32000-00000be52fff [heap]
+7f2ab7fc3000-7f2ab80c4fff [dynamic allocation]
+7f2ab80c5000-7f2ab82d9fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f2ab82db000-7f2ab82e0fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7f2ab82e1000-7f2ab82edfff [dynamic allocation]
+7f2ab8303000-7f2ab8304fff [dynamic allocation]
+7f2ab8305000-7f2ab833bfff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7f2ab833d000-7f2ab8340fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffd16ccf000-7ffd16cf7fff [stack]
+7ffd16d12000-7ffd16d15fff [vvar]
+7ffd16d16000-7ffd16d17fff [vdso]
+
+
+after 4: (heap i 000000405000-000000466fff [heap])
+rkf9wd@portal12:~/CSO2/labs/lab5/vm-explore$ setarch --addr-no-randomize ./lab 4
+Memory layout:
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000466fff [heap]
+7ffff7d7b000-7ffff7d7cfff [dynamic allocation]
+7ffff7d7d000-7ffff7f91fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f93000-7ffff7f98fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f99000-7ffff7fa5fff [dynamic allocation]
+7ffff7fbb000-7ffff7fbcfff [dynamic allocation]
+7ffff7fbd000-7ffff7fc0fff [vvar]
+7ffff7fc1000-7ffff7fc2fff [vdso]
+7ffff7fc3000-7ffff7ff9fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffff7ffb000-7ffff7ffefff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffffffd6000-7fffffffefff [stack]
+
+Initial state:
+             major page faults:          1
+             minor page faults:        180
+     Resident Set Size (bytes):    1675264
+                Shared (bytes):    1486848
+    Page Table Entries (bytes):      32768
+   Virtual Memory Size (bytes):    3141632
+                  Swap (bytes):          0
+---
+Running labStuff(4)...
+---
+Afterwards:
+             major page faults:          1 (        +0)
+             minor page faults:        181 (        +1)
+     Resident Set Size (bytes):    1679360 (     +4096)
+                Shared (bytes):    1486848 (        +0)
+    Page Table Entries (bytes):      36864 (     +4096)
+   Virtual Memory Size (bytes):    3145728 (     +4096)
+                  Swap (bytes):          0 (        +0)
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000466fff [heap]
+000000667000-000000667fff [dynamic allocation] <<<<<<<<<<<<<<<<<<<<<<<<<<< where the new 4096 byte allocation is
+7ffff7d7b000-7ffff7d7cfff [dynamic allocation]
+7ffff7d7d000-7ffff7f91fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f93000-7ffff7f98fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f99000-7ffff7fa5fff [dynamic allocation]
+7ffff7fbb000-7ffff7fbcfff [dynamic allocation]
+7ffff7fbd000-7ffff7fc0fff [vvar]
+7ffff7fc1000-7ffff7fc2fff [vdso]
+7ffff7fc3000-7ffff7ff9fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffff7ffb000-7ffff7ffefff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffffffd6000-7fffffffefff [stack]
+
+
+
+after 5:
+rkf9wd@portal12:~/CSO2/labs/lab5/vm-explore$ setarch --addr-no-randomize ./lab 5
+Memory layout:
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000466fff [heap]
+7ffff7d7b000-7ffff7d7cfff [dynamic allocation]
+7ffff7d7d000-7ffff7f91fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f93000-7ffff7f98fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f99000-7ffff7fa5fff [dynamic allocation]
+7ffff7fbb000-7ffff7fbcfff [dynamic allocation]
+7ffff7fbd000-7ffff7fc0fff [vvar]
+7ffff7fc1000-7ffff7fc2fff [vdso]
+7ffff7fc3000-7ffff7ff9fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffff7ffb000-7ffff7ffefff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffffffd6000-7fffffffefff [stack]
+
+Initial state:
+             major page faults:          0
+             minor page faults:        179
+     Resident Set Size (bytes):    1675264
+                Shared (bytes):    1486848
+    Page Table Entries (bytes):      32768
+   Virtual Memory Size (bytes):    3141632
+                  Swap (bytes):          0
+---
+Running labStuff(5)...
+---
+Afterwards:
+             major page faults:          0 (        +0)
+             minor page faults:        180 (        +1)
+     Resident Set Size (bytes):    1679360 (     +4096)
+                Shared (bytes):    1486848 (        +0)
+    Page Table Entries (bytes):      45056 (    +12288)
+   Virtual Memory Size (bytes):    3145728 (     +4096)
+                  Swap (bytes):          0 (        +0)
+addresses                 usage
+---------                 -----
+000000400000-000000404fff /u/rkf9wd/CSO2/labs/lab5/vm-explore/lab
+000000405000-000000466fff [heap]
+010000467000-010000467fff [dynamic allocation] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< new dynamic allocation from 5
+7ffff7d7b000-7ffff7d7cfff [dynamic allocation]
+7ffff7d7d000-7ffff7f91fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f93000-7ffff7f98fff /usr/lib/x86_64-linux-gnu/libc.so.6
+7ffff7f99000-7ffff7fa5fff [dynamic allocation]
+7ffff7fbb000-7ffff7fbcfff [dynamic allocation]
+7ffff7fbd000-7ffff7fc0fff [vvar]
+7ffff7fc1000-7ffff7fc2fff [vdso]
+7ffff7fc3000-7ffff7ff9fff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffff7ffb000-7ffff7ffefff /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+7ffffffd6000-7fffffffefff [stack]
