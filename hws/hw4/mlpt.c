@@ -211,3 +211,53 @@ int allocate_page(size_t start_va) {
 
     return -1; // page was unable to be allocated/error
 }
+
+
+static void free_table_recursive(size_t *table, size_t level) {
+    size_t page_size = (size_t)1 << POBITS;
+    size_t entries = page_size / sizeof(size_t);
+
+    for (size_t i = 0; i < entries; i += 1) {
+        size_t pte = table[i];
+        if ((pte & 1) == 0) {
+            continue;
+        }
+
+        size_t child_base = pte & ~(page_size - 1);
+        void *child_ptr = (void *)child_base;
+
+        if (level + 1 < (size_t)LEVELS) {
+            // child is another page table
+            free_table_recursive((size_t *)child_ptr, level + 1);
+            free(child_ptr);
+        }
+        else {
+            // child is a data page
+            free(child_ptr);
+        }
+
+        table[i] = 0; // optional: clear entry after freeing
+    }
+}
+
+
+int mlpt_destroy(void) {
+    if (ptbr == 0) {
+        return -1;
+    }
+
+    void *root_ptr = (void *)ptbr;
+
+    if ((size_t)LEVELS > 1) {
+        free_table_recursive((size_t *)root_ptr, 0);
+    }
+    else {
+        // LEVELS == 1: root table contains data page pointers directly
+        free_table_recursive((size_t *)root_ptr, 0);
+    }
+
+    free(root_ptr);
+    ptbr = 0;
+    return 0;
+}
+

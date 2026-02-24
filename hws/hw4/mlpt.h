@@ -33,4 +33,12 @@ size_t translate(size_t va);
  */
 int allocate_page(size_t start_va);
 
+/**
+ * Deallocate all page tables and data pages currently reachable from ptbr.
+ * After this call, ptbr will be set back to 0.
+ *
+ * Returns 0 on success, -1 if ptbr was already 0.
+ */
+int mlpt_destroy(void);
+
 #endif

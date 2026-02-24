@@ -1,0 +1,41 @@
+# Multi-layer page table assignment:
+
+## CONFIG FILE:
+
+The config.h file within the directory (or one if you create since it's not in the directory) will look like the following example:
+
+```
+#define LEVELS 1
+#define POBITS 12
+```
+
+To modify this config.h file, edit either the 1 or the 12, but none of the other key words. The amount of levels you would like, or layers, will replace 1. The number of page offset bits for each address will replace the 12.
+
+To choose values, we recommend choosing options that are evenly divisible by 4 options for the POBITS, such as 4, 8, 12, 16, etc, as this simplifies hand-written checks.
+
+## BUGS OR LIMITATIONS:
+
+If choosing very high numbers for LEVELS or POBITS in config.h, there could be memory space allocation issues. Beware.
+There are no other known bugs at this time.
+
+## OTHER INFORMATION:
+
+run the makefile to make the executable in the command line interface with "make" as long as you are in the directory of the executable and makefile.
+
+
+
+
+## DEALLOCATION INTERFACE:
+
+Prototype within mlpt.h:
+    int mlpt_destroy(void);
+
+Meaning:
+- Frees all page tables and data pages currently reachable from ptbr.
+- Sets ptbr back to 0.
+- Returns -1 if ptbr is already 0, otherwise returns 0.
+
+Behavior:
+- Performs a depth-first traversal of the multi-level page table.
+- For non-leaf levels, frees child page tables before freeing the current table.
+- For the final level, frees mapped data pages.
