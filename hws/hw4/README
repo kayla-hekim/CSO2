@@ -27,15 +27,19 @@ run the makefile to make the executable in the command line interface with "make
 
 ## DEALLOCATION INTERFACE:
 
-Prototype within mlpt.h:
-    int mlpt_destroy(void);
+**Prototype within mlpt.h**:
+```
+int mlpt_destroy(void);
+```
 
-Meaning:
+**Meaning**:
+
 - Frees all page tables and data pages currently reachable from ptbr.
 - Sets ptbr back to 0.
 - Returns -1 if ptbr is already 0, otherwise returns 0.
 
-Behavior:
+**Behavior**:
+
 - Performs a depth-first traversal of the multi-level page table.
 - For non-leaf levels, frees child page tables before freeing the current table.
 - For the final level, frees mapped data pages.
