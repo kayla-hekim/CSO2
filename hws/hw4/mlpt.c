@@ -8,17 +8,21 @@
 size_t ptbr = 0;
 
 
+// FEEDBACK: make into # DEFINE for one liner functions that only run once or smth
 // Number of bits used to index into one level of the page table
 // Each page table holds (page_size / 8) entries, so this equals POBITS - 3
-static size_t index_bits(void) {
-    return (size_t)POBITS - 3;
-}
+#define INDEX_BITS() ((size_t)POBITS - 3)
+// Builds a valid PTE from a physical page pointer
+// uses (size_t)1 shift to avoid overflow when POBITS >= 32
+#define MAKE_PTE(page) ((((size_t)(page)) & ~(((size_t)1 << POBITS) - 1)) | 1)
+// Extracts the physical base address encoded in a valid PTE
+#define PTE_BASE(pte) (pte & ~(((size_t)1 << POBITS) - 1))
 
 
 // Index into the page table at the given level for vpn
 // Higher levels consume the most-significant portion of the VPN
 static size_t vpn_index(size_t vpn, size_t lvl) {
-    size_t bits = index_bits();
+    size_t bits = INDEX_BITS();
     size_t shift = bits * ((size_t)LEVELS - 1 - lvl);
     return (vpn >> shift) & (((size_t)1 << bits) - 1);
 }
@@ -37,19 +41,6 @@ static void *alloc_page(void) {
 }
 
 
-// Builds a valid PTE from a physical page pointer
-// uses (size_t)1 shift to avoid overflow when POBITS >= 32
-static size_t make_pte(void *page) {
-    return (((size_t)page) & ~(((size_t)1 << POBITS) - 1)) | 1;
-}
-
-
-// Extracts the physical base address encoded in a valid PTE
-static size_t pte_base(size_t pte) {
-    return pte & ~(((size_t)1 << POBITS) - 1);
-}
-
-
 // Ensures the intermediate page table at table[idx] exists - allocating
 // one if the entry is not valid - returns pointer to next-level table, or null on failure
 static size_t *ensure_next_table(size_t *table, size_t idx) {
@@ -58,9 +49,9 @@ static size_t *ensure_next_table(size_t *table, size_t idx) {
         if (next == NULL) {
             return NULL;
         }
-        table[idx] = make_pte(next);
+        table[idx] = MAKE_PTE(next);
     }
-    return (size_t *)pte_base(table[idx]);
+    return (size_t *)PTE_BASE(table[idx]);
 }
 
 
@@ -80,9 +71,9 @@ size_t translate(size_t va) {
             return ~(size_t)0;
         }
         if (lvl == (size_t)LEVELS - 1) {
-            return pte_base(pte) + offset;
+            return PTE_BASE(pte) + offset;
         }
-        page_table = (size_t *)pte_base(pte);
+        page_table = (size_t *)PTE_BASE(pte);
     }
     return ~(size_t)0;
 }
@@ -120,7 +111,7 @@ int allocate_page(size_t start_va) {
     if (data == NULL) {
         return -1;
     }
-    page_table[last_idx] = make_pte(data);
+    page_table[last_idx] = MAKE_PTE(data);
     return 1;
 }
 
@@ -133,7 +124,7 @@ static void free_table_recursive(size_t *table, size_t level) {
         if ((pte & 1) == 0) {
             continue;
         }
-        void *child = (void *)pte_base(pte);
+        void *child = (void *)PTE_BASE(pte);
         if (level + 1 < (size_t)LEVELS) {
             free_table_recursive((size_t *)child, level + 1);
         }
