@@ -1,0 +1,73 @@
+INSTRUCTIONS:
+gcc -fopenmp -O2 openmpreduction.c -lm
+./a.out /usr/bin/emacs-gtk
+
+
+
+TEMPLATE:
+Version # ():
+run 1: 
+run 2: 
+run 3: 
+average:  ns
+
+
+
+MEASUREMENTS:
+Version 1 (reduction): 
+run 1: 12085571 ns to process 6306696 characters: 4.75837
+run 2: 9389494 ns to process 6306696 characters: 4.75837
+run 3: 15287226 ns to process 6306696 characters: 4.75837
+average: 12,254,097 ns
+
+Version 2 (schedule(dynamic) + reduction): 
+run 1: 227733731 ns to process 6306696 characters: 4.75837
+run 2: 223609837 ns to process 6306696 characters: 4.75837
+run 3: 228673008 ns to process 6306696 characters: 4.75837
+average: 226,672,192 ns
+
+Version 3 (schedule(static, 10) + reduction): 
+run 1: 10920599 ns to process 6306696 characters: 4.75837
+run 2: 11165626 ns to process 6306696 characters: 4.75837 
+run 3: 11098134 ns to process 6306696 characters: 4.75837
+average: 11,061,453 ns
+
+Version 4 (schedule(guided) + reduction): 
+run 1: 12491148 ns to process 6306696 characters: 4.75837
+run 2: 10336122 ns to process 6306696 characters: 4.75837
+run 3: 15277812 ns to process 6306696 characters: 4.75837
+average: 12,701,694 ns
+
+Version 5 (atomic update):
+run 1: 230947764 ns to process 6306696 characters: 4.75837
+run 2: 241805274 ns to process 6306696 characters: 4.75837
+run 3: 231343458 ns to process 6306696 characters: 4.75837
+average: 234,698,832 ns
+
+Version 6 (nowait): 
+run 1: 15152794 ns to process 6306696 characters: 4.75837
+run 2: 11936825 ns to process 6306696 characters: 4.75837
+run 3: 10315415 ns to process 6306696 characters: 4.75837
+average: 12,468,344.6667 ns
+
+
+
+From the average runtimes, the strategies ranked from fastest to slowest were:
+    1. schedule(static, 10) + reduction
+    2. reduction
+    3. nowait
+    4. schedule(guided) + reduction
+    5. schedule(dynamic) + reduction
+    6. atomic update
+
+
+
+EXPLANATION:
+
+The schedule(static, 10) and reduction combination method was the fastest by around a million nanoseconds compared to second place (average of 11,061,453 ns) due to:
+- static dividing the work ahead of time in fixed chunks among threads,
+- and each chunk having 10 iterations
+which has less overhead than dynamic scheduling and better load balancing than assigning each thread one large block of work.
+
+The reduction helps in providing each thread its own local copy of answer, which is then summed at the end. 
+The built-in reduction is also faster than atomic updates because it avoids synchronizing every iteration.
