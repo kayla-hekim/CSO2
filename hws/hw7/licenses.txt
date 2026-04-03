@@ -1,0 +1,17 @@
+licenses.txt
+
+Licenses considered:
+
+1. MIT License
+A permissive license allowing reuse, modification, and distribution with minimal requirements (primarily preservation of the copyright
+and license notice). No warranty provided.
+
+2. Apache License 2.0
+A permissive license similar to MIT but with more explicit patent licensing terms and requirements about preserving notices.
+
+3. GNU GPLv3
+A copyleft license requiring that derivative works distributed to others must also be licensed under GPLv3 and provide source code.
+
+Choice:
+I chose the MIT License because it is short, simple, and permissive, which is appropriate for a small educational codebase where I want
+others to be able to read and reuse the code easily.
