@@ -4,9 +4,12 @@
 char request_num; // store data[1][0] in main to then pass into callback_function if needed
 int last_seq = 0;
 int timeout_id = -1;
+int finished = 0;
 
 
 void callback_function(void *arg) {
+    if (finished) return;
+
     char msg[5]; 
 
     if (last_seq == 0) {
@@ -24,7 +27,9 @@ void callback_function(void *arg) {
     msg[0] = msg[1] ^ msg[2] ^ msg[3] ^ msg[4];
     send(5, msg);
     // request_num = msg[4];
-    timeout_id = setTimeout(callback_function, 1000, NULL);
+    if (!finished) {
+        timeout_id = setTimeout(callback_function, 1000, NULL);
+    }
 
 }
 
@@ -47,6 +52,9 @@ void recvd(size_t len, void* _data) {
         fwrite(data + 3, 1, len - 3, stdout);
         fflush(stdout);
         last_seq = data[1];
+        if (data[1] == data[2]) {
+            finished = 1;
+        }
     }
     
     char ack[5];
@@ -54,7 +62,7 @@ void recvd(size_t len, void* _data) {
     ack[0] = ack[1] ^ ack[2] ^ ack[3] ^ ack[4];
     send(5, ack);
 
-    if (data[1] < data[2]) {
+    if (!finished) {
         timeout_id = setTimeout(callback_function, 1000, NULL);
     }
 }
