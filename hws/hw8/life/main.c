@@ -43,12 +43,10 @@ typedef void (*vfv)(void);
 /** Array of function pointers to test and time */
 vfv test_functions[] = {
     serial,
-    /* UNCOMMENT THIS WHEN YOU'VE IMPLEMENTED PARALLEL VERSION
     threads_1,
     threads_2,
     threads_4,
     threads_8,
-    */
 };
 /** Display names for functions (must match above array) */
 const char *function_names[] = {
