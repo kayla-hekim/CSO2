@@ -40,7 +40,6 @@ void forward_attack_1(struct message *message) {
         }
         return;
     }
-
     // printf("reached after big if block");
     send_message(message);
 }
@@ -49,7 +48,22 @@ void forward_attack_1(struct message *message) {
    change this code to implement your attack
  */
 void forward_attack_2(struct message *message) {
-    send_message(message);
+    static bool saved = false;
+    // static bool replayed = false;
+    static struct message saved_msg;
+
+    if (message->from == 'A' && message->to == 'B')  {
+        if (!saved) {
+            memcpy(&saved_msg, message, sizeof(struct message));
+            saved = true;
+
+            send_message(message); // original message sent (1000)
+            send_message(&saved_msg); // replayed message sent (extra 1000)
+            // replayed = true;
+            return;
+        }
+    }
+    send_message(message); // original $0438 sent
 }
 
 /* forward function for "attack 3" case.
