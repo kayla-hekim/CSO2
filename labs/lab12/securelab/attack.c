@@ -70,7 +70,30 @@ void forward_attack_2(struct message *message) {
    change this code to implement your attack
  */
 void forward_attack_3(struct message *message) {
-    send_message(message);
+    static bool first_one_done = false;
+    static bool second_replayed = false;
+    static bool last_dropped = false;
+    static struct message saved_msg;
+
+    if (message->from == 'A' && message->to == 'B')  {
+        if (!first_one_done) {
+            send_message(message);
+            first_one_done = true;
+            return;
+        }
+        if (!second_replayed) {
+            memcpy(&saved_msg, message, sizeof(struct message));
+            send_message(message); // original message sent (1000)
+            send_message(&saved_msg); // replayed message sent (extra 1000)
+            second_replayed = true;
+            return;
+        }
+        if (!last_dropped) {
+            last_dropped = true;
+            return;
+        }
+    }
+    send_message(message); // original $0438 sent
 }
 
 /* forward function for "attack 4" case.
