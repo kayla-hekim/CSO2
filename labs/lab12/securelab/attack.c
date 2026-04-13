@@ -29,6 +29,19 @@ void forward_attack_0(struct message *message) {
    change this code to implement your attack
  */
 void forward_attack_1(struct message *message) {
+    static bool sent = false;
+
+    if (message->from == 'A' && message->to == 'B')  {
+        if (!sent) {
+            struct message *msg_to_send = new_message('A', 'B', "PAY $10001438 TO M", true, false);
+            send_message(msg_to_send);
+            sent = true;
+        // printf("sent message with 10001438\n");
+        }
+        return;
+    }
+
+    // printf("reached after big if block");
     send_message(message);
 }
 
